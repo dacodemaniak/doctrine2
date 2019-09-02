@@ -74,6 +74,18 @@ final class Core {
                 "/",
                 "\Controllers\Home\HomeController#index"
             );
+        
+        $this->router->map(
+                "GET",
+                "/session/add",
+                "\Controllers\Home\HomeController#addSession"
+            );
+        
+        $this->router->map(
+                "GET",
+                "/session/update/[i:id]",
+                "\Controllers\Home\HomeController#updateSession"
+            );
     }
     
     private function resolver() {
@@ -84,8 +96,14 @@ final class Core {
             // Make an instance of the controller
             $controllerName = $controllerComponents[0];
             $controller = new $controllerName();
-            // Call the required method
-            $controller->{$controllerComponents[1]}();
+            
+            // Check for params
+            if ($routerMatches["params"]) {
+                $controller->{$controllerComponents[1]}($routerMatches["params"]["id"]);
+            } else {
+                // Call the required method
+                $controller->{$controllerComponents[1]}();
+            }
         }
     }
     
@@ -94,8 +112,11 @@ final class Core {
      */
     private static function autoload(string $className) {
         $classParts = explode("\\", $className);
+        
         $class = array_pop($classParts);
+        
         $classPath = __DIR__ . "/../" . implode("/", $classParts) . "/" . $class . ".php";
+        
         if (file_exists($classPath)) {
             require_once($classPath);
         } else {

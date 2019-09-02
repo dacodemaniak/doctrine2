@@ -52,11 +52,11 @@ class EntityManager {
 	 */
 	private $dbConfiguration = [
 	    "driver" => "pdo_mysql",
-	    "host" => "127.0.0.1",
+	    "host" => "localhost",
 	    "charset" => "utf8",
 	    "user" => "doctrine_dba",
 	    "password" => "doctrine",
-	    "dbName" => "doctrine"
+	    "dbname" => "doctrine" // CAUTION DO NOT USE CAMELCASE HERE
 	];
 	
 	/**

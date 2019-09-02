@@ -1,7 +1,7 @@
 <?php
 /**
  * @name index Dispatcher de l'application PHP
- * @author Artoris - Nov. 2018
+ * @author IDea Factory - Sept. 2019
  * @package none
  * @version 1.0.0
  */
