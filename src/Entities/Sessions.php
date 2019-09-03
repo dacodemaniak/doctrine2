@@ -57,13 +57,6 @@ class Sessions
      */
     protected $availablePlaces;
     
-    /**
-     * Array of participants of one Session
-     * @var array
-     * 
-     * @ORM\OneToMany(targetEntity=\Entities\Participant::class, cascade={"persist"}, mappedBy="session")
-     */
-    protected $participants;
     
     public function __construct(){
         $this->beginAt = new \DateTime();
@@ -136,36 +129,5 @@ class Sessions
         $this->availablePlaces = $places < 1 ? 1 : $places;
         
         return $this;
-    }
-    
-    /**
-     * Adds a participant to this Session
-     * 
-     * @param Participant $participant
-     * @return Sessions
-     */
-    public function addParticipant(Participant $participant): Sessions {
-        $this->participants->add($participant);
-        
-        return $this;
-    }
-    
-    /**
-     * Removes a Participant from the collection of this Sessions's Participants
-     * @param Participant $participant
-     * @return Sessions
-     */
-    public function removeParticipant(Participant $participant): Sessions {
-        $this->participants->remove($participant);
-        
-        return $this;
-    }
-    
-    public function getParticipants(): \Doctrine\ORM\PersistentCollection {
-        return $this->participants;
-    }
-    
-    public function getNbParticipants(): int {
-        return $this->participants->count();
     }
 }
