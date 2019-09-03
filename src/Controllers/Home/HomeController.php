@@ -6,6 +6,7 @@ use \Core\ORM\EntityManager;
 use \Entities\Sessions;
 use \Core\Controllers\CallableInterface;
 use Entities\Participant;
+use Entities\Participation;
 
 /**
  *
@@ -114,6 +115,57 @@ final class HomeController implements CallableInterface
         $em->flush();
         
         echo "Session was deleted " . $id;
+    }
+    
+    public function participation() {
+        $sessionRepo = \Core\ORM\EntityManager::getEntityManager()->getRepository(Sessions::class);
+        $participantRepo = \Core\ORM\EntityManager::getEntityManager()->getRepository(Participant::class);
+        
+        $em = \Core\ORM\EntityManager::getEntityManager()->getManager();
+        
+        // 1. Inscrire tous les participants à la session 12
+        $session = $sessionRepo->find(12);
+        $participants = $participantRepo->findAll();
+        
+        foreach ($participants as $participant) {
+            $participation = (new Participation())
+                ->setParticipant($participant)
+                ->setSession($session)
+                ->signinDate(new \DateTime());
+            $em->persist($participation); // Needs to persist into database
+        }
+        
+        // 2. Inscrire le participant 2 à la session 13
+        $participation = (new Participation())
+            ->setParticipant($participantRepo->find(2))
+            ->setSession($sessionRepo->find(13))
+            ->signinDate(new \DateTime("2019-09-04"));
+        $em->persist($participation);
+        
+        // All objects are ready to write
+        $em->flush();
+    }
+    
+    /**
+     * Get sessions signed by a Participant
+     * 
+     * @param int $id Id of a Participant
+     */
+    public function listSessions(int $id) {
+        $repo = \Core\ORM\EntityManager::getEntityManager()->getRepository(Participant::class);
+        
+        $participant = $repo->find($id);
+        
+        // Now, let's output results
+        echo "<h1>" . $participant->getFirstName() . " " . $participant->getLastName() . "</h1>";
+        
+        // Loop over participations to get the session
+        echo "<ul>";
+        foreach ($participant->getParticipations() as $participation) {
+            echo    "<li>" . $participation->getSession()->title() . 
+                    " [" . $participation->signinDate()->format("d-m-Y") . "]</li>";
+        }
+        echo "</ul>";
     }
     
     public function fixture() {

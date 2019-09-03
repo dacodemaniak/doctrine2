@@ -81,6 +81,16 @@ final class Core {
             "\Controllers\Home\HomeController#session"
         );
         
+        $this->router->map(
+                "GET",
+                "/session/participant/add",
+                "\Controllers\Home\HomeController#participation"
+            );
+        $this->router->map(
+            "GET",
+            "/session/participant/[i:id]",
+            "\Controllers\Home\HomeController#listSessions"
+        );
         
         $this->router->map(
                 "GET",

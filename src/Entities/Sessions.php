@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="sessions")
  */
-final class Sessions
+class Sessions
 {
 
     /**

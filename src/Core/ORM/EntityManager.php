@@ -98,6 +98,7 @@ class EntityManager {
 	public function getRepository($entityClassName) {
 	    return $this->manager->getRepository($entityClassName);
 	}
+	
 	/**
 	 * Process the Doctrine Entity Manager Configuration and returns it
 	 * @return \Doctrine\ORM\EntityManager

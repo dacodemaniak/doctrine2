@@ -55,7 +55,7 @@ final class Participation
     public function __construct()
     {}
     
-    public function signinDate(\DateTime $date = null): self {
+    public function signinDate(\DateTime $date = null) {
         if ($date === null) {
             return $this->signinDate;
         }

@@ -111,6 +111,14 @@ class Participant
         
         return $this;
     }
+    
+    /**
+     * Get assocation rows of session's participation
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getParticipations() {
+        return $this->participations;
+    }
 
 }
 
