@@ -4,13 +4,14 @@ namespace Controllers\Home;
 
 use \Core\ORM\EntityManager;
 use \Entities\Sessions;
+use \Core\Controllers\CallableInterface;
 
 /**
  *
  * @author jean-luc
  *        
  */
-final class HomeController
+final class HomeController implements CallableInterface
 {
 
     /**
@@ -20,6 +21,10 @@ final class HomeController
     
     public function index() {
         echo "HomeController::index works !";
+    }
+    
+    public function invoke(string $method, array $args) {
+        call_user_func_array([$this,$method],$args);
     }
     
     /**

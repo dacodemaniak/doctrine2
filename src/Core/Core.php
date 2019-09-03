@@ -99,7 +99,8 @@ final class Core {
             
             // Check for params
             if ($routerMatches["params"]) {
-                $controller->{$controllerComponents[1]}($routerMatches["params"]["id"]);
+                //$controller->{$controllerComponents[1]}($routerMatches["params"]["id"]);
+                $controller->invoke($controllerComponents[1], array_values($routerMatches["params"]));
             } else {
                 // Call the required method
                 $controller->{$controllerComponents[1]}();
