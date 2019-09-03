@@ -74,6 +74,13 @@ final class Core {
                 "/",
                 "\Controllers\Home\HomeController#index"
             );
+
+        $this->router->map(
+            "GET",
+            "/session/[i:id]",
+            "\Controllers\Home\HomeController#session"
+        );
+        
         
         $this->router->map(
                 "GET",
@@ -85,6 +92,17 @@ final class Core {
                 "GET",
                 "/session/update/[i:id]",
                 "\Controllers\Home\HomeController#updateSession"
+            );
+        
+        $this->router->map(
+                "GET",
+                "/session/delete/[i:id]",
+                "\Controllers\Home\HomeController#deleteSession"
+            );
+        $this->router->map(
+                "GET",
+                "/session/hydrate",
+                "\Controllers\Home\HomeController#fixture"
             );
     }
     
@@ -121,12 +139,14 @@ final class Core {
         if (file_exists($classPath)) {
             require_once($classPath);
         } else {
-            // On cherche dans le dossier vendor
-            foreach(self::$vendorPathes as $classRoot => $path) {
-                $classPath = __DIR__ . "/../../vendor/" . $path . "/" . $class . ".php";
-                if (file_exists($classPath)) {
-                    require_once($classPath);
-                    break;
+            if (property_exists(\Core\Core::class, "vendorPathes")) {
+                // On cherche dans le dossier vendor
+                foreach(self::$vendorPathes as $classRoot => $path) {
+                    $classPath = __DIR__ . "/../../vendor/" . $path . "/" . $class . ".php";
+                    if (file_exists($classPath)) {
+                        require_once($classPath);
+                        break;
+                    }
                 }
             }
         }
