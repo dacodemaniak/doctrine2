@@ -119,6 +119,14 @@ class Participant
     public function getParticipations() {
         return $this->participations;
     }
+    
+    public function __get($attributeName) {
+        if (!property_exists($this, $attributeName)) {
+            if ($attributeName === "fullName") {
+                return $this->firstName . " " . strtoupper($this->lastName);
+            }
+        }
+    }
 
 }
 

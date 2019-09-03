@@ -168,6 +168,35 @@ final class HomeController implements CallableInterface
         echo "</ul>";
     }
     
+    public function sessions() {
+        $repo = \Core\ORM\EntityManager::getEntityManager()->getRepository(Sessions::class);
+        
+        $participationsRepo = \Core\ORM\EntityManager::getEntityManager()->getRepository(Participation::class);
+        
+        $sessions = $repo->findAll();
+        
+        echo "<ul>";
+        foreach ($sessions as $session) {
+            // Gets participations for this session
+            $participations = $participationsRepo->findBy([
+                "session" => $session
+            ]);
+            
+            echo "<li><strong>" . $session->title() . "</strong> [ " . count($participations) . " participants ]";
+            if (count($participations)) {
+                echo "<ul>";
+                foreach ($participations as $participation) {
+                    echo "<li>" . $participation->getParticipant()->fullName . "</li>";
+                }
+                echo "</ul>";
+            }
+            echo "</li>";
+        }
+        echo "</ul>";
+        
+        
+    }
+    
     public function fixture() {
         $startDate = new \DateTime();
         $endDate = $startDate->add(new \DateInterval("P1D"));

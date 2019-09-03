@@ -77,6 +77,12 @@ final class Core {
 
         $this->router->map(
             "GET",
+            "/sessions",
+            "\Controllers\Home\HomeController#sessions"
+        );
+        
+        $this->router->map(
+            "GET",
             "/session/[i:id]",
             "\Controllers\Home\HomeController#session"
         );
