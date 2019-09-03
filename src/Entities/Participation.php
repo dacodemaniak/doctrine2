@@ -19,7 +19,7 @@ final class Participation
     
     /**
      * 
-     * @var unknown
+     * @var integer
      * 
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,7 +29,7 @@ final class Participation
     
     /**
      * 
-     * @var unknown
+     * @var \DateTime
      * 
      * @ORM\Column(type="datetime")
      */
@@ -37,7 +37,7 @@ final class Participation
     
     /**
      * 
-     * @var unknown
+     * @var \Entities\Participant
      * 
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="participations")
      */
@@ -45,7 +45,7 @@ final class Participation
     
     /**
      * 
-     * @var unknown
+     * @var \Entities\Sessions
      * 
      * @ORM\ManyToOne(targetEntity=Sessions::class)
      */

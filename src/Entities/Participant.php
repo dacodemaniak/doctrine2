@@ -3,6 +3,7 @@ namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Entities\Sessions;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * 
@@ -41,15 +42,17 @@ class Participant
     protected $firstName;
     
     /**
-     * @var \Entities\Sessions
+     * @var ArrayCollection
      * 
-     * @ORM\ManyToOne(targetEntity=Sessions::class, cascade={"persist"}, inversedBy="participants")
+     * @ORM\OneToMany(targetEntity=Participation::class, cascade={"persist"}, mappedBy="participant")
      */
-    protected $session;
+    protected $participations;
     
     
     public function __construct()
-    {}
+    {
+        $this->participations = new ArrayCollection();
+    }
     
     /**
      * @return number
@@ -99,12 +102,12 @@ class Participant
     }
     
     /**
-     * Sets the session of this Participant
-     * @param Sessions $session
+     * Add this participant to the participations
+     * @param Participation 
      * @return Participant
      */
-    public function setSession(Sessions $session): Participant {
-        $this->session = $session;
+    public function addParticipation(Participation $participation): Participant {
+        $this->participations->add($participation);
         
         return $this;
     }
