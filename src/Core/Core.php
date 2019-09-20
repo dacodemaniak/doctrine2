@@ -9,6 +9,7 @@ namespace Core;
 
 use \TemplateEngine\Smarty\Smarty;
 use \Controllers\Home\HomeController;
+use Core\TemplateEngine\TemplateEngineInterface;
 
 require_once(__DIR__ . "/../../vendor/autoload.php");
 
@@ -64,11 +65,21 @@ final class Core {
         return self::$coreInstance;
     }
     
+    public function getTemplateEngine(): TemplateEngineInterface {
+        return $this->templateEngine;
+    }
+    
     /**
      * Sets routes of the application
      * @todo Better with annotation reader to read routes from Controllers
      */
     private function setRoutes() {
+        $this->router->map(
+            "GET",
+            "/todolist/add",
+            "\Controllers\Home\HomeController#addTodoList"
+        );
+        
         $this->router->map(
                 "GET",
                 "/",

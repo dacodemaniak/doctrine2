@@ -3,13 +3,14 @@ namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Entities\Participant;
+use \Repositories\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  *
  * @author IDea Factory - Sept. 2019
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=SessionRepository::class)
  * @ORM\Table(name="sessions")
  */
 class Sessions

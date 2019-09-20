@@ -125,6 +125,8 @@ class Participant
             if ($attributeName === "fullName") {
                 return $this->firstName . " " . strtoupper($this->lastName);
             }
+        } else {
+            return $this->{$attributeName};
         }
     }
 

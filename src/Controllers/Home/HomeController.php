@@ -2,18 +2,21 @@
 namespace Controllers\Home;
 
 
+use \Core\Core;
 use \Core\ORM\EntityManager;
 use \Entities\Sessions;
 use \Core\Controllers\CallableInterface;
 use Entities\Participant;
 use Entities\Participation;
+use Core\Controllers\Controller;
+use Entities\TodoList;
 
 /**
  *
  * @author jean-luc
  *        
  */
-final class HomeController implements CallableInterface
+final class HomeController extends Controller implements CallableInterface
 {
 
     /**
@@ -22,11 +25,24 @@ final class HomeController implements CallableInterface
     {}
     
     public function index() {
-        echo "HomeController::index works !";
+        $this->templateName = __DIR__ . "/../../../Templates/Home/index.tpl";
     }
     
     public function invoke(string $method, array $args) {
         call_user_func_array([$this,$method],$args);
+    }
+    
+    public function addTodoList() {
+        $em = \Core\ORM\EntityManager::getEntityManager()->getManager();
+        
+        // Create an instance of TodoList
+        $todoList = new TodoList();
+        $todoList->setTitle("Ma nouvelle todoList");
+        
+        $em->persist($todoList);
+        $em->flush();
+        
+        echo "Got it! Votre nouvelle todolist porte le numéro : " . $todoList->getId();
     }
     
     public function session(int $id) {
@@ -34,7 +50,7 @@ final class HomeController implements CallableInterface
         
             $repository = $em = \Core\ORM\EntityManager::getEntityManager()->getRepository(Sessions::class);
             
-            $session = $repository->find($id);
+            $session = $repository->findById($id);
             
             echo "<h1>Session : " . $session->title() . "</h1>";
             
@@ -173,6 +189,7 @@ final class HomeController implements CallableInterface
         
         $participationsRepo = \Core\ORM\EntityManager::getEntityManager()->getRepository(Participation::class);
         
+        // Get all sessions
         $sessions = $repo->findAll();
         
         echo "<ul>";
